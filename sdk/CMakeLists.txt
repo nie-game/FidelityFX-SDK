@@ -50,7 +50,7 @@ if (NOT FFX_CUSTOM_API)
 	endif()
 
 	# Pull in tool chain definitions
-	include(toolchain.cmake)
+	#include(toolchain.cmake)
 	
 	# If we are NOT building the GDK, queue up DX12/VK solution for building
 	if (NOT FFX_GDK)
@@ -71,18 +71,6 @@ if (NOT FFX_CUSTOM_API)
 	endif()
 endif()
 
-# Set platform
-if(CMAKE_GENERATOR_PLATFORM STREQUAL "Gaming.Desktop.x64")
-	set(FFX_PLATFORM_NAME gdk_desktop_x64)
-elseif(CMAKE_GENERATOR_PLATFORM STREQUAL "Gaming.Xbox.Scarlett.x64")
-	set(FFX_PLATFORM_NAME gdk_scarlett_x64)
-elseif(CMAKE_GENERATOR_PLATFORM STREQUAL "x64" OR CMAKE_EXE_LINKER_FLAGS STREQUAL "/machine:x64")
-    set(FFX_PLATFORM_NAME x64)
-elseif(CMAKE_GENERATOR_PLATFORM STREQUAL "Win32" OR CMAKE_EXE_LINKER_FLAGS STREQUAL "/machine:X86")
-    set(FFX_PLATFORM_NAME x86)
-else()
-    message(FATAL_ERROR "Unsupported target platform \"${CMAKE_GENERATOR_PLATFORM}\" - only supporting gdk, x64, and Win32 currently")
-endif()
 
 # Pre-compile shaders
 set(FFX_AUTO_COMPILE_SHADERS ON CACHE BOOL "Compile shaders automatically as a prebuild step.")
@@ -107,8 +95,6 @@ endif()
 # Set configuration types based on what we are building for
 if (NOT FFX_CUSTOM_API)
 
-	# Embed PDBs in the debug versions of the libs
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Z7 /Od")
 
 	# Write both debug and release versions of the static libs to the /bin folder as they are uniquely named
 	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG   ${CMAKE_HOME_DIRECTORY}/bin/ffx_sdk/)

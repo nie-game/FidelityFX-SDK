@@ -1,7 +1,7 @@
 // This file is part of the FidelityFX SDK.
 //
 // Copyright (C) 2024 Advanced Micro Devices, Inc.
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -22,7 +22,7 @@
 
 /// @defgroup VKBackend Vulkan Backend
 /// FidelityFX SDK native backend implementation for Vulkan.
-/// 
+///
 /// @ingroup Backends
 
 #pragma once
@@ -32,7 +32,7 @@
 
 #if defined(__cplusplus)
 extern "C" {
-#endif // #if defined(__cplusplus)
+#endif  // #if defined(__cplusplus)
 
 /// FFX specific callback type when submitting a command buffer to a queue.
 typedef VkResult (*PFN_vkQueueSubmitFFX)(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence);
@@ -65,22 +65,23 @@ typedef struct VkFrameInterpolationInfoFFX
 } VkFrameInterpolationInfoFFX;
 
 /// Query how much memory is required for the Vulkan backend's scratch buffer.
-/// 
+///
 /// @param [in] physicalDevice              A pointer to the VkPhysicalDevice device.
 /// @param [in] maxContexts                 The maximum number of simultaneous effect contexts that will share the backend.
 ///                                         (Note that some effects contain internal contexts which count towards this maximum)
 ///
 /// @returns
 /// The size (in bytes) of the required scratch memory buffer for the VK backend.
-/// 
+///
 /// @ingroup VKBackend
 FFX_API size_t ffxGetScratchMemorySizeVK(VkPhysicalDevice physicalDevice, size_t maxContexts);
 
 /// Convenience structure to hold all VK-related device information
-typedef struct VkDeviceContext {
-    VkDevice                vkDevice;           /// The Vulkan device
-    VkPhysicalDevice        vkPhysicalDevice;   /// The Vulkan physical device
-    PFN_vkGetDeviceProcAddr vkDeviceProcAddr;   /// The device's function address table
+typedef struct VkDeviceContext
+{
+    VkDevice                vkDevice;          /// The Vulkan device
+    VkPhysicalDevice        vkPhysicalDevice;  /// The Vulkan physical device
+    PFN_vkGetDeviceProcAddr vkDeviceProcAddr;  /// The device's function address table
 } VkDeviceContext;
 
 /// Create a <c><i>FfxDevice</i></c> from a <c><i>VkDevice</i></c>.
@@ -108,12 +109,7 @@ FFX_API FfxDevice ffxGetDeviceVK(VkDeviceContext* vkDeviceContext);
 /// FFX_ERROR_CODE_INVALID_POINTER          The <c><i>interface</i></c> pointer was <c><i>NULL</i></c>.
 ///
 /// @ingroup VKBackend
-FFX_API FfxErrorCode ffxGetInterfaceVK(
-    FfxInterface* backendInterface,
-    FfxDevice device,
-    void* scratchBuffer,
-    size_t scratchBufferSize, 
-    size_t maxContexts);
+FFX_API FfxErrorCode ffxGetInterfaceVK(FfxInterface* backendInterface, FfxDevice device, void* scratchBuffer, size_t scratchBufferSize, size_t maxContexts);
 
 /// Create a <c><i>FfxCommandList</i></c> from a <c><i>VkCommandBuffer</i></c>.
 ///
@@ -146,10 +142,10 @@ FFX_API FfxPipeline ffxGetPipelineVK(VkPipeline pipeline);
 /// An abstract FidelityFX resources.
 ///
 /// @ingroup VKBackend
-FFX_API FfxResource ffxGetResourceVK(void*  vkResource,
-    FfxResourceDescription                  ffxResDescription,
-    const wchar_t*                          ffxResName,
-    FfxResourceStates                       state = FFX_RESOURCE_STATE_COMPUTE_READ);
+FFX_API FfxResource ffxGetResourceVK(void*                  vkResource,
+                                     FfxResourceDescription ffxResDescription,
+                                     const wchar_t*         ffxResName,
+                                     FfxResourceStates      state = FFX_RESOURCE_STATE_COMPUTE_READ);
 
 /// Fetch a <c><i>FfxSurfaceFormat</i></c> from a VkFormat.
 ///
@@ -256,7 +252,7 @@ FFX_API FfxErrorCode ffxWaitForPresents(FfxSwapchain gameSwapChain);
 /// @param [in] gameSwapChain           The <c><i>FfxSwapchain</i></c> to to register the UI resource with.
 /// @param [in] uiResource              The <c><i>FfxResource</i></c> representing the UI resource.
 /// @param [in] flags                   A set of <c><i>FfxUiCompositionFlags</i></c>.
-/// 
+///
 /// @retval
 /// FFX_OK                              The operation completed successfully.
 /// @retval
@@ -300,7 +296,11 @@ FFX_API FfxResource ffxGetFrameinterpolationTextureVK(FfxSwapchain gameSwapChain
 /// @ingroup VKFrameInterpolation
 FFX_API FfxErrorCode ffxSetFrameGenerationConfigToSwapchainVK(FfxFrameGenerationConfig const* config);
 
-typedef VkResult (*PFN_vkCreateSwapchainFFX)(VkDevice device, const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchain, const VkFrameInterpolationInfoFFX* pFrameInterpolationInfo);
+typedef VkResult (*PFN_vkCreateSwapchainFFX)(VkDevice                           device,
+                                             const VkSwapchainCreateInfoKHR*    pCreateInfo,
+                                             const VkAllocationCallbacks*       pAllocator,
+                                             VkSwapchainKHR*                    pSwapchain,
+                                             const VkFrameInterpolationInfoFFX* pFrameInterpolationInfo);
 
 /// Function to get he number of presents. This is useful when using frame interpolation
 typedef uint64_t (*PFN_getLastPresentCountFFX)(VkSwapchainKHR);
@@ -324,4 +324,4 @@ FFX_API FfxErrorCode ffxGetSwapchainReplacementFunctionsVK(FfxDevice device, Ffx
 
 #if defined(__cplusplus)
 }
-#endif // #if defined(__cplusplus)
+#endif  // #if defined(__cplusplus)

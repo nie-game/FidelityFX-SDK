@@ -1,7 +1,7 @@
 // This file is part of the FidelityFX SDK.
 //
 // Copyright (C) 2024 Advanced Micro Devices, Inc.
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -28,7 +28,7 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 #include <windows.h>  // required for OutputDebugString()
-#include <stdio.h>    // required for sprintf_s
+#include <stdio.h>    // required for sprintf
 #endif                // #ifndef _WIN32
 
 static FfxAssertCallback s_assertCallback;
@@ -43,8 +43,8 @@ void ffxAssertSetPrintingCallback(FfxAssertCallback callback)
 // implementation of assert reporting
 bool ffxAssertReport(const char* file, int32_t line, const char* condition, const char* message)
 {
-    if (!file) {
-
+    if (!file)
+    {
         return true;
     }
 
@@ -52,20 +52,26 @@ bool ffxAssertReport(const char* file, int32_t line, const char* condition, cons
     // form the final assertion string and output to the TTY.
     const size_t bufferSize = snprintf(NULL, 0, "%s(%d): ASSERTION FAILED. %s\n", file, line, message ? message : condition) + 1;
     char*        tempBuf    = (char*)malloc(bufferSize);
-    if (!tempBuf) {
-
+    if (!tempBuf)
+    {
         return true;
     }
 
-    if (!message) {
-        sprintf_s(tempBuf, bufferSize, "%s(%d): ASSERTION FAILED. %s\n", file, line, condition);
-    } else {
-        sprintf_s(tempBuf, bufferSize, "%s(%d): ASSERTION FAILED. %s\n", file, line, message);
+    if (!message)
+    {
+        snprintf(tempBuf, bufferSize, "%s(%d): ASSERTION FAILED. %s\n", file, line, condition);
+    }
+    else
+    {
+        snprintf(tempBuf, bufferSize, "%s(%d): ASSERTION FAILED. %s\n", file, line, message);
     }
 
-    if (!s_assertCallback) {
+    if (!s_assertCallback)
+    {
         OutputDebugStringA(tempBuf);
-    } else {
+    }
+    else
+    {
         s_assertCallback(tempBuf);
     }
 

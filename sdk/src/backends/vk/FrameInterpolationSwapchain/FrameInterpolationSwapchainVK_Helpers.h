@@ -1,7 +1,7 @@
 // This file is part of the FidelityFX SDK.
 //
 // Copyright (C) 2024 Advanced Micro Devices, Inc.
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files(the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -27,12 +27,7 @@
 #include <FidelityFX/host/ffx_assert.h>
 #include <FidelityFX/host/backends/vk/ffx_vk.h>
 
-#include <Windows.h>
-#include <synchapi.h>
-
-
 void waitForPerformanceCount(const int64_t targetCount);
-
 
 struct SubmissionSemaphores
 {
@@ -81,7 +76,7 @@ struct VulkanQueue : public VkQueueInfoFFX
         queue       = info.queue;
         familyIndex = info.familyIndex;
         submitFunc  = info.submitFunc;
-    } 
+    }
 
     void reset()
     {
@@ -228,7 +223,7 @@ public:
         VkResult res = vkEndCommandBuffer(commandBuffer);
         if (res != VK_SUCCESS)
             return res;
-        
+
         return queue.submit(commandBuffer, semaphore, availableSemaphoreValue);
     }
 
@@ -237,7 +232,7 @@ public:
         VkResult res = vkEndCommandBuffer(commandBuffer);
         if (res != VK_SUCCESS)
             return res;
-        
+
         semaphoresToSignal.add(semaphore, availableSemaphoreValue);
         return queue.submit(commandBuffer, semaphoresToWait, semaphoresToSignal);
     }
@@ -247,7 +242,7 @@ public:
         VkResult res = vkEndCommandBuffer(commandBuffer);
         if (res != VK_SUCCESS)
             return res;
-        
+
         return queue.submit(VK_NULL_HANDLE, semaphore, availableSemaphoreValue);
     }
 
@@ -323,7 +318,7 @@ public:
         FFX_ASSERT(familyIndex < NumFamilies);
 
         VkCommands* pCommands = nullptr;
-        
+
         for (size_t idx = 0; idx < Capacity && (pCommands == nullptr); idx++)
         {
             auto& cmds = buffer[familyIndex][idx];

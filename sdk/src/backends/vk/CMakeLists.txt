@@ -52,8 +52,6 @@ file(GLOB PRIVATE_SOURCE
 	"${FFX_SRC_BACKENDS_PATH}/shared/blob_accessors/"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/FrameInterpolationSwapchain/*.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/FrameInterpolationSwapchain/*.cpp"
 )
 
 if (FFX_FSR1 OR FFX_ALL)
@@ -490,7 +488,7 @@ endif()
 
 if (FFX_BLUR OR FFX_ALL)
 	target_compile_definitions(ffx_backend_vk_${FFX_PLATFORM_NAME} PRIVATE FFX_BLUR)
-	include (CMakeShadersBlur.txt)
+	include (CMakeShadersBLUR.txt)
 endif()
 
 if (FFX_VRS OR FFX_ALL)
