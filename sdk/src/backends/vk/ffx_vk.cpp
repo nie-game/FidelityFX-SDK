@@ -40,6 +40,8 @@
 #include <vulkan/vulkan.h>
 #include <iostream>
 
+#define wcstombs_s(ret, a, size, b, len) *(ret) = wcstombs(a, b, len)
+
 // prototypes for functions in the interface
 FfxVersionNumber       GetSDKVersionVK(FfxInterface* backendInterface);
 FfxErrorCode           GetEffectGpuMemoryUsageVK(FfxInterface* backendInterface, FfxUInt32 effectContextId, FfxEffectMemoryUsage* outVramUsage);
@@ -1104,8 +1106,10 @@ void addBarrier(BackendContext_VK* backendContext, FfxResourceInternal* resource
     }
     else
     {
-        VkImage               vkResource = ffxResource.imageResource;
-        VkImageMemoryBarrier* barrier    = &backendContext->imageMemoryBarriers[backendContext->scheduledImageBarrierCount];
+        VkImage vkResource = ffxResource.imageResource;
+        FFX_ASSERT(NULL != vkResource);
+        FFX_ASSERT(((void*)(0xffffffffffffffffULL)) != vkResource);
+        VkImageMemoryBarrier* barrier = &backendContext->imageMemoryBarriers[backendContext->scheduledImageBarrierCount];
 
         FfxResourceStates& curState = backendContext->pResources[resource->internalIndex].currentState;
 
@@ -3725,6 +3729,8 @@ FfxErrorCode DestroyPipelineVK(FfxInterface* backendInterface, FfxPipelineState*
     VkPipeline vkPipeline = reinterpret_cast<VkPipeline>(pipeline->pipeline);
     if (vkPipeline != VK_NULL_HANDLE)
     {
+        FFX_ASSERT(backendContext);
+        FFX_ASSERT(backendContext->vkFunctionTable.vkDestroyPipeline);
         backendContext->vkFunctionTable.vkDestroyPipeline(backendContext->device, vkPipeline, VK_NULL_HANDLE);
         pipeline->pipeline = VK_NULL_HANDLE;
     }
