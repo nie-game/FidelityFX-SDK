@@ -26,11 +26,12 @@
 #include <FidelityFX/host/ffx_types.h>
 #include <FidelityFX/host/ffx_error.h>
 
-#if !defined(_WIN32) && defined(__cplusplus)
-#define _countof(array) (sizeof(array) / sizeof(array[0]))
+#if defined(__cplusplus)
 #define __STDC_LIB_EXT1__
 #define __STDC_WANT_LIB_EXT1__ 1
 #include <wchar.h>
+#if !defined(_WIN32)
+#define _countof(array) (sizeof(array) / sizeof(array[0]))
 template <size_t size>
 int wcscpy_s(wchar_t (&dest)[size], const wchar_t* src)
 {
@@ -42,6 +43,7 @@ int wcscat_s(wchar_t (&strDestination)[size], const wchar_t* strSource)
     return {};
 }
 #define FFX_CPU
+#endif
 extern "C" {
 #endif  // #if defined(__cplusplus)
 
