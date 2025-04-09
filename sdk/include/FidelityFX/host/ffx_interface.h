@@ -26,7 +26,7 @@
 #include <FidelityFX/host/ffx_types.h>
 #include <FidelityFX/host/ffx_error.h>
 
-#if defined(__cplusplus)
+#if !defined(_WIN32) && defined(__cplusplus)
 #define _countof(array) (sizeof(array) / sizeof(array[0]))
 #define __STDC_LIB_EXT1__
 #define __STDC_WANT_LIB_EXT1__ 1
