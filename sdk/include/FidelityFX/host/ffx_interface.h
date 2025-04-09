@@ -42,8 +42,8 @@ int wcscat_s(wchar_t (&strDestination)[size], const wchar_t* strSource)
 {
     return {};
 }
-#define FFX_CPU
 #endif
+#define FFX_CPU
 extern "C" {
 #endif  // #if defined(__cplusplus)
 
